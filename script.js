@@ -8,15 +8,8 @@ const Node = function(dataInput) {
 
 const Tree = function(array) {
     let arr = array.sort((a,b) => a-b);
-    for(let i=1; i<arr.length; i++) {
-        let cur = arr[i];
-        let prev = arr[i-1];
+    removeDup(arr);
 
-        if(cur === prev) {
-            arr.splice(i, 1);
-            i -=1;
-        }
-    }
 
     let root = buildTree(arr, 0, arr.length-1);
 
@@ -32,6 +25,18 @@ const Tree = function(array) {
         return root;
     };
 
+    function removeDup(arr) {
+        for(let i=1; i<arr.length; i++) {
+            let cur = arr[i];
+            let prev = arr[i-1];
+
+            if(cur === prev) {
+                arr.splice(i, 1);
+                i -=1;
+            }
+        }
+    }
+
     const prettyPrint = (node, prefix = '', isLeft = true) => {
         if (node === null || node === undefined) {
             return;
@@ -43,19 +48,18 @@ const Tree = function(array) {
     };
 
     const includes = (value) => {
-        for(let elements of arr) {
-            if(elements === value) {
-                return true;
-            }
-        }
-
+        if(arr.includes(value)) {return true;}
         return false;
     };
 
-    return{prettyPrint, includes, root};
+    const insert = (value) => {
+        if(arr.includes(value)) {return;}
+    };
+
+    return{prettyPrint, includes, insert, root};
 };
 
 let tree = new Tree([3,6,2,1,5,4]);
 // tree.prettyPrint(tree.root);
-console.log(tree.includes(6));
+console.log(tree.includes(7));
 
