@@ -33,8 +33,18 @@ const Tree = function(array) {
         return root;
     };
 
-    return(root);
+    const prettyPrint = (node, prefix = '', isLeft = true) => {
+        if (node === null || node === undefined) {
+            return;
+        }
+
+        prettyPrint(node.right, `${prefix}${isLeft ? '│   ' : '    '}`, false);
+        console.log(`${prefix}${isLeft ? '└── ' : '┌── '}${node.data}`);
+        prettyPrint(node.left, `${prefix}${isLeft ? '    ' : '│   '}`, true);
+    };
+
+    return{prettyPrint, root};
 };
 
-let tree = new Tree([5,2,3,2,1,2,2,5,3]);
-console.log(tree);
+let tree = new Tree([3,6,2,1,5,4]);
+tree.prettyPrint(tree.root);
