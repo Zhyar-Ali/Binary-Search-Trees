@@ -10,7 +10,6 @@ const Tree = function(array) {
     let arr = array.sort((a,b) => a-b);
     removeDup(arr);
 
-
     let root = buildTree(arr, 0, arr.length-1);
 
     function buildTree(array, start, end) {
@@ -54,12 +53,33 @@ const Tree = function(array) {
 
     const insert = (value) => {
         if(arr.includes(value)) {return;}
+        let newNode = new Node(value);
+        let curRoot = root;
+
+        while(true) {
+            if(newNode.data > curRoot.data) {
+                if(curRoot.right === null) {
+                    curRoot.right = newNode;
+                    return;
+                }
+                curRoot = curRoot.right;
+            }else {
+                if(curRoot.left === null) {
+                    curRoot.left = newNode;
+                    return true;
+                }
+                curRoot = curRoot.left;
+            }
+        }
     };
 
     return{prettyPrint, includes, insert, root};
 };
 
-let tree = new Tree([3,6,2,1,5,4]);
+let tree = new Tree([1,3,5]);
 // tree.prettyPrint(tree.root);
-console.log(tree.includes(7));
+tree.insert(2);
+tree.insert(4);
+tree.prettyPrint(tree.root);
+// console.log(tree.includes(7));
 
