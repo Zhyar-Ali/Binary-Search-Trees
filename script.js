@@ -7,7 +7,6 @@ const Node = function(dataInput) {
 };
 
 const Tree = function(array) {
-
     let arr = array.sort((a,b) => a-b);
     for(let i=1; i<arr.length; i++) {
         let cur = arr[i];
@@ -43,8 +42,20 @@ const Tree = function(array) {
         prettyPrint(node.left, `${prefix}${isLeft ? '    ' : '│   '}`, true);
     };
 
-    return{prettyPrint, root};
+    const includes = (value) => {
+        for(let elements of arr) {
+            if(elements === value) {
+                return true;
+            }
+        }
+
+        return false;
+    };
+
+    return{prettyPrint, includes, root};
 };
 
 let tree = new Tree([3,6,2,1,5,4]);
-tree.prettyPrint(tree.root);
+// tree.prettyPrint(tree.root);
+console.log(tree.includes(6));
+
