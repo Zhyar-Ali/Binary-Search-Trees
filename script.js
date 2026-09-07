@@ -73,13 +73,43 @@ const Tree = function(array) {
         }
     };
 
-    return{prettyPrint, includes, insert, root};
+    const deleteItem = (rootIn, value) => {
+        if(rootIn === null) {
+            return rootIn;
+        }
+
+        if(rootIn.data > value) {
+            rootIn.left = deleteItem(rootIn.left, value);
+        }else if(rootIn.data < value) {
+            rootIn.right = deleteItem(rootIn.right, value);
+        }else{
+            if(rootIn.left === null) {return rootIn.right;}
+            if(rootIn.right === null) {return rootIn.left;}
+
+            const succ = getSucc(rootIn);
+            rootIn.data = succ.data;
+            rootIn.right = deleteItem(rootIn.right, succ.data);
+        }
+        return rootIn;
+    };
+
+    function getSucc(currNode) {
+        currNode = currNode.right;
+        while(currNode !== null && currNode.left !== null) {
+            currNode = currNode.left;
+        }
+        return currNode;
+    }
+
+    return{prettyPrint, includes, insert, deleteItem, root};
 };
 
 let tree = new Tree([1,3,5]);
 // tree.prettyPrint(tree.root);
 tree.insert(2);
 tree.insert(4);
+tree.prettyPrint(tree.root);
+tree.deleteItem(tree.root, 3);
 tree.prettyPrint(tree.root);
 // console.log(tree.includes(7));
 
