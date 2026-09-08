@@ -101,15 +101,36 @@ const Tree = function(array) {
         return currNode;
     }
 
-    return{prettyPrint, includes, insert, deleteItem, root};
+    const levelOrderForEach = (callback) => {
+        if(!callback) {
+            throw new Error("A callback is required");
+        }
+        const queue = [root];
+        
+        while(queue.length > 0) {
+            let current = queue.shift();
+
+            callback(current.data);
+            
+            if(current.left !== null) {
+                queue.push(current.left);
+            }
+            if(current.right !== null) {
+                queue.push(current.right);
+            }
+        }
+    };
+
+    return{prettyPrint, includes, insert, deleteItem, levelOrderForEach, root};
 };
 
 let tree = new Tree([1,3,5]);
 // tree.prettyPrint(tree.root);
 tree.insert(2);
 tree.insert(4);
-tree.prettyPrint(tree.root);
-tree.deleteItem(tree.root, 3);
-tree.prettyPrint(tree.root);
+// tree.prettyPrint(tree.root);
+// tree.deleteItem(tree.root, 6);
+// tree.prettyPrint(tree.root);
+tree.levelOrderForEach((value) => console.log(value));
 // console.log(tree.includes(7));
 
