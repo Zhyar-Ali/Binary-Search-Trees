@@ -157,7 +157,38 @@ const Tree = function(array) {
         callback(rootIn.data);
     };
 
-    return{prettyPrint, includes, insert, deleteItem, levelOrderForEach, inOrderForEach, preOrderForEach, postOrderForEach, root};
+    const height = (value) => {
+        let currNode = root;
+        
+        while(currNode !== null && currNode.data !== value) {        
+            if(currNode.data > value) {
+                currNode = currNode.left;
+                continue;
+            }
+            if(currNode.data < value) {
+                currNode = currNode.right;
+            }
+        }
+
+        if(currNode === null) {
+            return undefined;
+        }
+
+        const calculateHeight = (node) => {
+            if(node === null) {
+                return -1;
+            }
+
+            let leftSide = calculateHeight(node.left);
+            let rightSide = calculateHeight(node.right);
+
+            return 1 + Math.max(leftSide,rightSide);
+        };
+
+        return calculateHeight(currNode);
+    };
+
+    return{prettyPrint, includes, insert, deleteItem, levelOrderForEach, inOrderForEach, preOrderForEach, postOrderForEach, height, root};
 };
 
 let tree = new Tree([1,3,5]);
@@ -172,6 +203,8 @@ tree.insert(6);
 // tree.levelOrderForEach((value) => console.log(value));
 // tree.inOrderForEach((value)=>console.log(value));
 // tree.preOrderForEach((value)=>console.log(value));
-tree.postOrderForEach((value)=>console.log(value));
+// tree.postOrderForEach((value)=>console.log(value));
 // console.log(tree.includes(7));
+console.log(tree.height(3));
+
 
