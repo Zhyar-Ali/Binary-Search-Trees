@@ -121,16 +121,44 @@ const Tree = function(array) {
         }
     };
 
-    return{prettyPrint, includes, insert, deleteItem, levelOrderForEach, root};
+    const inOrderForEach = (callback, rootIn = root) => {
+        if(!callback) {
+            throw new Error("A callback is required");
+        }
+        if(rootIn === null) {
+            return;
+        }
+        inOrderForEach(callback, rootIn.left);
+        callback(rootIn.data);
+        inOrderForEach(callback, rootIn.right);
+    };
+
+    const preOrderForEach = (callback, rootIn = root) => {
+        if(!callback) {
+            throw new Error("A callback is required");
+        }
+        if(rootIn === null) {
+            return;
+        }
+        callback(rootIn.data);
+        preOrderForEach(callback, rootIn.left);
+        preOrderForEach(callback, rootIn.right);
+    };
+
+    return{prettyPrint, includes, insert, deleteItem, levelOrderForEach, inOrderForEach, preOrderForEach, root};
 };
 
 let tree = new Tree([1,3,5]);
 // tree.prettyPrint(tree.root);
 tree.insert(2);
 tree.insert(4);
+tree.insert(0);
+tree.insert(6);
 // tree.prettyPrint(tree.root);
 // tree.deleteItem(tree.root, 6);
 // tree.prettyPrint(tree.root);
-tree.levelOrderForEach((value) => console.log(value));
+// tree.levelOrderForEach((value) => console.log(value));
+// tree.inOrderForEach((value)=>console.log(value));
+tree.preOrderForEach((value)=>console.log(value));
 // console.log(tree.includes(7));
 
