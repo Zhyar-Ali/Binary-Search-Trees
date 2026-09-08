@@ -159,7 +159,7 @@ const Tree = function(array) {
 
     const height = (value) => {
         let currNode = root;
-        
+
         while(currNode !== null && currNode.data !== value) {        
             if(currNode.data > value) {
                 currNode = currNode.left;
@@ -188,7 +188,29 @@ const Tree = function(array) {
         return calculateHeight(currNode);
     };
 
-    return{prettyPrint, includes, insert, deleteItem, levelOrderForEach, inOrderForEach, preOrderForEach, postOrderForEach, height, root};
+    const depth = (value) => {
+        let currNode = root;
+        let depthValue = 0;
+
+        while(currNode !== null && currNode.data !== value) {        
+            if(currNode.data > value) {
+                currNode = currNode.left;
+                depthValue++;
+                continue;
+            }
+            if(currNode.data < value) {
+                currNode = currNode.right;
+                depthValue++;
+            }
+        }
+
+        if(currNode === null) {
+            return undefined;
+        }
+        return depthValue;
+    };
+
+    return{prettyPrint, includes, insert, deleteItem, levelOrderForEach, inOrderForEach, preOrderForEach, postOrderForEach, height, depth, root};
 };
 
 let tree = new Tree([1,3,5]);
@@ -205,6 +227,8 @@ tree.insert(6);
 // tree.preOrderForEach((value)=>console.log(value));
 // tree.postOrderForEach((value)=>console.log(value));
 // console.log(tree.includes(7));
-console.log(tree.height(3));
+// console.log(tree.height(3));
+console.log(tree.depth(3));
+
 
 
