@@ -174,19 +174,30 @@ const Tree = function(array) {
             return undefined;
         }
 
-        const calculateHeight = (node) => {
-            if(node === null) {
-                return -1;
-            }
+        // const calculateHeight = (node) => {
+        //     if(node === null) {
+        //         return -1;
+        //     }
 
-            let leftSide = calculateHeight(node.left);
-            let rightSide = calculateHeight(node.right);
+        //     let leftSide = calculateHeight(node.left);
+        //     let rightSide = calculateHeight(node.right);
 
-            return 1 + Math.max(leftSide,rightSide);
-        };
+        //     return 1 + Math.max(leftSide,rightSide);
+        // };
 
         return calculateHeight(currNode);
     };
+
+    function calculateHeight(node) {
+        if(node === null) {
+            return -1;
+        }
+
+        let leftSide = calculateHeight(node.left);
+        let rightSide = calculateHeight(node.right);
+
+        return 1 + Math.max(leftSide,rightSide);
+    }
 
     const depth = (value) => {
         let currNode = root;
@@ -210,7 +221,25 @@ const Tree = function(array) {
         return depthValue;
     };
 
-    return{prettyPrint, includes, insert, deleteItem, levelOrderForEach, inOrderForEach, preOrderForEach, postOrderForEach, height, depth, root};
+    const isBalanced = () => {
+        const rec = (node) => {
+            if(node === null) {
+                return true;
+            }
+
+            let leftHeight = calculateHeight(node.left);
+            let rightHeight = calculateHeight(node.right);
+
+            let leftSide = rec(node.left);
+            let rightSide = rec(node.right);
+
+            return (Math.abs(leftHeight-rightHeight) <= 1 && leftSide && rightSide);
+        };
+
+        return rec(root);
+    };
+
+    return{prettyPrint, includes, insert, deleteItem, levelOrderForEach, inOrderForEach, preOrderForEach, postOrderForEach, height, depth, isBalanced, root};
 };
 
 let tree = new Tree([1,3,5]);
@@ -228,7 +257,9 @@ tree.insert(6);
 // tree.postOrderForEach((value)=>console.log(value));
 // console.log(tree.includes(7));
 // console.log(tree.height(3));
-console.log(tree.depth(3));
+// console.log(tree.depth(3));
+console.log(tree.isBalanced());
+
 
 
 
