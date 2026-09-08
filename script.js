@@ -145,7 +145,19 @@ const Tree = function(array) {
         preOrderForEach(callback, rootIn.right);
     };
 
-    return{prettyPrint, includes, insert, deleteItem, levelOrderForEach, inOrderForEach, preOrderForEach, root};
+    const postOrderForEach = (callback, rootIn = root) => {
+        if(!callback) {
+            throw new Error("A callback is required");
+        }
+        if(rootIn === null) {
+            return;
+        }
+        postOrderForEach(callback, rootIn.left);
+        postOrderForEach(callback, rootIn.right);
+        callback(rootIn.data);
+    };
+
+    return{prettyPrint, includes, insert, deleteItem, levelOrderForEach, inOrderForEach, preOrderForEach, postOrderForEach, root};
 };
 
 let tree = new Tree([1,3,5]);
@@ -159,6 +171,7 @@ tree.insert(6);
 // tree.prettyPrint(tree.root);
 // tree.levelOrderForEach((value) => console.log(value));
 // tree.inOrderForEach((value)=>console.log(value));
-tree.preOrderForEach((value)=>console.log(value));
+// tree.preOrderForEach((value)=>console.log(value));
+tree.postOrderForEach((value)=>console.log(value));
 // console.log(tree.includes(7));
 
